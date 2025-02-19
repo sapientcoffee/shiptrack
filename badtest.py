@@ -1,5 +1,6 @@
 from main import app
 import json, time
+import unittest
 
 class TestEndpoints(unittest.TestCase):
 
@@ -10,10 +11,10 @@ class TestEndpoints(unittest.TestCase):
         response = self.app.get('/discovery')
         data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(data[name], 'shipping')
-        self.assertEqual(data[version], '1.0')
-        self.assertEqual(data[owners], ['ameerabb', 'lonestar'])
-        self.assertEqual(data[team], 'genAIs')
+        self.assertEqual(data['name'], 'shipping')
+        self.assertEqual(data['version'], '1.0')
+        self.assertEqual(data['owners'], ['ameerabb', 'lonestar'])
+        self.assertEqual(data['team'], 'genAIs')
         self.assertEqual(data['organization'], 'acme')
 
     def test_liveness(self):
@@ -34,4 +35,4 @@ class TestEndpoints(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.mian()
+    unittest.main()
