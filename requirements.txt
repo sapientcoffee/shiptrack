@@ -1,0 +1,9 @@
+cloud-sql-python-connector==1.2.4
+sqlalchemy==1.4.36
+pg8000==1.22.0
+Flask==3.0.0
+gunicorn==20.1.0
+psycopg2-binary
+requests==2.28.1
+CORS
+flask_cors
