@@ -1,4 +1,5 @@
 **/lib
 **/bin
 **/__pycache__
+**/include
 pyvenv.cfg
