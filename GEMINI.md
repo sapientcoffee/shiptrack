@@ -53,6 +53,10 @@ flask run --app main
 *   **Testing:** A `tmp/tests` directory exists, suggesting that tests are written using a framework like `pytest`.
 *   **Environment Variables:** For the Cloud SQL integration, environment variables are used to store database connection details. The `vars.sh` file provides a template for these variables.
 
+# Development Workflow
+
+ALL changes are small and have a git commit (to allow for easy roll back of changes). Changes should be pushed back to GitHub as a new branch and PR carried out
+
 # Code Reviews
 
 When a code review is requested, you should follow the sytleguide in `.gemini/styleguide.md`.
