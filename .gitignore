@@ -10,4 +10,4 @@ pyvenv.cfg
 lib/
 venv/
 .venv/
-env/
+env/lib/
