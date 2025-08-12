@@ -4,3 +4,10 @@
 **/include
 pyvenv.cfg
 *.log
+
+
+# Python virtual environment
+lib/
+venv/
+.venv/
+env/

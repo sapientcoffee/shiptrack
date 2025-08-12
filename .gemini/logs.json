@@ -1,0 +1,37 @@
+[
+  {
+    "sessionId": 1749157231,
+    "messageId": 0,
+    "type": "user",
+    "message": "could you review the code in the dir structure?",
+    "timestamp": "2025-06-05T21:00:41.471Z"
+  },
+  {
+    "sessionId": 1749157231,
+    "messageId": 1,
+    "type": "user",
+    "message": "could you write some unittests?",
+    "timestamp": "2025-06-05T21:01:49.263Z"
+  },
+  {
+    "sessionId": 1749157231,
+    "messageId": 2,
+    "type": "user",
+    "message": "could you review the code as if you are an experinced eng doing a code review?",
+    "timestamp": "2025-06-05T21:10:07.408Z"
+  },
+  {
+    "sessionId": 1749157231,
+    "messageId": 3,
+    "type": "user",
+    "message": "yes 1)",
+    "timestamp": "2025-06-05T21:21:42.998Z"
+  },
+  {
+    "sessionId": 1749251270,
+    "messageId": 0,
+    "type": "user",
+    "message": "could you provide an example gemini.md to help me?",
+    "timestamp": "2025-06-06T23:08:14.019Z"
+  }
+]
