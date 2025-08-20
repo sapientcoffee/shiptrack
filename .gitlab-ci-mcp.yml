@@ -1,0 +1,75 @@
+stages:
+  - review
+
+gemini_cli_code_review:
+  stage: review
+  
+  # check https://github.com/google-gemini/gemini-cli/tags for the latest version
+  image: us-docker.pkg.dev/gemini-code-dev/gemini-cli/sandbox:0.1.18
+
+  script:
+    - echo "Starting the Gemini CLI job..."
+    
+    - |
+      echo "Using API KEY Authentication"
+
+      if [ -z "$GEMINI_API_KEY" ]; then
+        echo "Error: The 'GEMINI_API_KEY' CI/CD variable is not set."
+        echo "Please configure it in your project's Settings > CI/CD > Variables."
+        exit 1
+      fi
+      
+    - |
+      echo "Downloading and extracting gitlab-mcp binary..."
+      GITLAB_MCP_VERSION="1.29.0"
+      curl -L -O "https://gitlab.com/fforster/gitlab-mcp/-/releases/v${GITLAB_MCP_VERSION}/downloads/gitlab-mcp_${GITLAB_MCP_VERSION}_Linux_x86_64.tar.gz"
+      tar -xzf gitlab-mcp_${GITLAB_MCP_VERSION}_Linux_x86_64.tar.gz
+      chmod +x gitlab-mcp
+      
+    - |
+      echo "Writing Gemini CLI settings..."
+      mkdir -p "$HOME/.gemini"
+      cat <<EOF > "$HOME/.gemini/settings.json"
+      {
+        "coreTools": ["LSTool", "ReadFileTool", "GrepTool", "GlobTool", "ReadManyFilesTool"],
+        "mcpServers": {
+          "gitlab": {
+            "command": "${CI_PROJECT_DIR}/gitlab-mcp",
+            "env": {
+              "GITLAB_TOKEN": "${GITLAB_REVIEW_PAT}"
+            },
+            "timeout": 5000,
+            "includeTools": [
+              "discussion_add_note", 
+              "discussion_list",
+              "get_merge_request_changes",
+              "get_merge_request_commits",
+              "get_merge_request_dependencies",
+              "get_merge_request_participants",
+              "get_merge_request_reviewers",
+              "get_merge_request",
+              "get_repository_file_contents",
+              "list_merge_request_diffs",
+              "list_project_merge_requests"
+            ]
+          }
+        }
+      }
+      EOF
+      
+    - |
+      echo "Performing Code Review with Gemini"
+
+      # This runs in "yolo mode" because the pipeline runs non-interactively
+      gemini --yolo <<EOF
+        Provide a consistent and thorough code review in Gitlab project ${CI_MERGE_REQUEST_PROJECT_URL} for the merge request ${CI_MERGE_REQUEST_IID}
+        Consider all the collaborator comments in the MR that explain the code.
+
+        Steps:
+        1. Add a comment to the MR with a concise summary of proposed change. Skip this if nothing has changed since you last provided a summary.
+        2. Add a comment to the MR with a prioritized list of suggestions and quoting the current code when possible. Reference your previous merge request comments if applicable.
+      EOF
+
+
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
